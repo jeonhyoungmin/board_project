@@ -1,0 +1,96 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap"); /* font-family: "Pacifico", cursive; 로고 폰트 */
+@import url("https://fonts.googleapis.com/css2?family=Abel&family=Pacifico&display=swap"); /* font-family: "Abel", sans-serif; 기본 폰트 */
+@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"); /* cdnjs icons */
+
+:root {
+    --border-color-1: #e9e8e8;
+    --border-color-2: black;
+
+    --box-background-1: #f8f8f8;
+    --box-background-2: white;
+
+    --box-color-1: white;
+
+    --selected-color-blue: #79edff;
+
+    --word-highlight-1: #0086e5;
+
+    --button-color-1: #0086e5;
+    --button-color-2: white;
+    --button-color-3: black;
+    --button-color-4: grey;
+    --button-color-5: red;
+
+    --font-color-1: white;
+
+    --select-color-1: grey;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Abel", sans-serif; /* 기본 글씨 체 */
+}
+a {
+    color: black;
+    text-decoration: none;
+}
+a:visited {
+    color: black;
+}
+button:hover {
+    cursor: pointer;
+}
+
+.center_flex_item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.jc_space_between_item {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.ai_space_between_item {
+    display: flex;
+    align-items: space-between;
+}
+.ai_flex_end_item {
+    display: flex;
+    align-items: flex-end;
+}
+.ai_flex_center_item {
+    display: flex;
+    align-items: center;
+}
+
+.fw_bold {
+    font-weight: bold;
+}
+
+.fs_26 {
+    font-size: 26px;
+}
+.fs_24 {
+    font-size: 24px;
+}
+.fs_22 {
+    font-size: 22px;
+}
+.fs_20 {
+    font-size: 20px;
+}
+.fs_18 {
+    font-size: 18px;
+}
+.fs_16 {
+    font-size: 16px;
+}
+.fs_14 {
+    font-size: 14px;
+}
+.fs_12 {
+    font-size: 12px;
+}
