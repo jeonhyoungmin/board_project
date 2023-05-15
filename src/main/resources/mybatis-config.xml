@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <typeAliases>
-        <typeAlias alias="SignUpDto" type="com.surup.board.domain.SignUpDto"/>
+        <typeAlias alias="UserDto" type="com.surup.board.domain.UserDto"/>
     </typeAliases>
 </configuration>
