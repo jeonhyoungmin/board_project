@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.surup.board.dao.UserMapper">
+    <select id="count" resultType="int">
+        SELECT count(*) FROM user_info
+    </select>
+
+    <select id="duplIdCheck" parameterType="String" resultType="UserDto">
+        SELECT * FROM user_info WHERE id = #{id}
+    </select>
+
+    <select id="duplNicknameCheck" parameterType="String" resultType="UserDto">
+        SELECT * FROM user_info WHERE nickname = #{nickname}
+    </select>
+
+    <select id="duplEmailCheck" parameterType="String" resultType="UserDto">
+        SELECT * FROM user_info WHERE email = #{email}
+    </select>
+
+    <select id="selectAll" resultType="UserDto">
+        SELECT * FROM user_info
+    </select>
+
+    <select id="select" parameterType="String" resultType="UserDto">
+        SELECT * FROM user_info WHERE id = #{id}
+    </select>
+
+    <delete id="deleteAll">
+        DELETE FROM user_info
+    </delete>
+
+    <delete id="delete">
+        DELETE FROM user_info
+    </delete>
+
+    <insert id="insert" parameterType="UserDto" >
+        insert into user_info(id, pwd, username, sex, birth, email, nickname)
+        values(#{id}, #{pwd}, #{username}, #{sex}, #{birth}, #{email}, #{nickname})
+    </insert>
+</mapper>
