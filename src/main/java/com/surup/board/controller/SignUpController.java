@@ -118,13 +118,13 @@ public class SignUpController {
     // 실시간 id, nickname, email 중복 검사 메서드
     private HashMap fetch_dupl_check(String data, String checkObject) {
         HashMap map = new HashMap();
-        UserDto dupl_cnt = null;
+        UserDto dupl_check = null;
         String trans_data = data.substring(1, data.length() - 1);
         try {
-            if (checkObject == "id") dupl_cnt = userService.duplIdCheck(trans_data);
-            if (checkObject == "nickname") dupl_cnt = userService.duplNicknameCheck(trans_data);
+            if (checkObject == "id") dupl_check = userService.duplIdCheck(trans_data);
+            if (checkObject == "nickname") dupl_check = userService.duplNicknameCheck(trans_data);
 
-            if (dupl_cnt != null) throw new Exception(checkObject + "중복");
+            if (dupl_check != null) throw new Exception(checkObject + "중복");
 
             if (checkObject == "id") map.put("word", "* 사용할 수 있는 아이디입니다.");
             if (checkObject == "nickname") map.put("word", "* 사용할 수 있는 닉네임입니다.");
@@ -144,13 +144,13 @@ public class SignUpController {
 
     // 유효성 검사 중 id, nickname, email 중복 검사 메서드
     private String dupl_check(Model m, String data, String checkObject) {
-        UserDto dupl_cnt = null;
+        UserDto dupl_check = null;
         try {
-            if (checkObject == "id") dupl_cnt = userService.duplIdCheck(data);
-            if (checkObject == "nickname") dupl_cnt = userService.duplNicknameCheck(data);
-            if (checkObject == "email") dupl_cnt = userService.duplEmailCheck(data);
+            if (checkObject == "id") dupl_check = userService.duplIdCheck(data);
+            if (checkObject == "nickname") dupl_check = userService.duplNicknameCheck(data);
+            if (checkObject == "email") dupl_check = userService.duplEmailCheck(data);
 
-            if (dupl_cnt != null) throw new Exception(checkObject + "중복");
+            if (dupl_check != null) throw new Exception(checkObject + "중복");
         } catch (Exception e) {
             e.printStackTrace();
 
