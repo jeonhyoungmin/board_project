@@ -1,41 +1,27 @@
 package com.surup.board.service;
 
-import com.surup.board.dao.UserDao;
 import com.surup.board.domain.UserDto;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
-@Service
-public class UserService {
-    @Autowired
-    UserDao userDao;
+public interface UserService {
+    // SELECT
+    List<UserDto> getUserAll() throws Exception;
 
-    public List<UserDto> getUserAll() throws Exception {
-        return userDao.selectAll();
-    }
+    UserDto duplIdCheck(String id) throws Exception;
 
-    public UserDto duplIdCheck(String id) throws Exception {
-        // id 중복 확인
-        return userDao.duplIdCheck(id);
-    }
+    UserDto duplNicknameCheck(String nickname) throws Exception;
 
-    public UserDto duplNicknameCheck(String nickname) throws Exception {
-        // id 중복 확인
-        return userDao.duplNicknameCheck(nickname);
-    }
+    UserDto duplEmailCheck(String email) throws Exception;
 
-    public UserDto duplEmailCheck(String email) throws Exception {
-        // id 중복 확인
-        return userDao.duplEmailCheck(email);
-    }
+    UserDto getUser(String id) throws Exception;
 
-    public int registerUser(UserDto userDto) throws Exception {
-        return userDao.insert(userDto);
-    }
+    // INSERT
+    int registerUser(UserDto userDto) throws Exception;
 
+    // DELETE
+    int deleteAccount(String id) throws Exception;
+
+    // UPDATE
+    int updatePwd(UserDto userDto) throws Exception;
 }
