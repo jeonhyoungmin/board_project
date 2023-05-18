@@ -3,40 +3,62 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.surup.board.dao.UserMapper">
+    <!-- user_info DB Mapper -->
+    <!-- SELECT -->
     <select id="count" resultType="int">
-        SELECT count(*) FROM user_info
-    </select>
-
-    <select id="duplIdCheck" parameterType="String" resultType="UserDto">
-        SELECT * FROM user_info WHERE id = #{id}
-    </select>
-
-    <select id="duplNicknameCheck" parameterType="String" resultType="UserDto">
-        SELECT * FROM user_info WHERE nickname = #{nickname}
-    </select>
-
-    <select id="duplEmailCheck" parameterType="String" resultType="UserDto">
-        SELECT * FROM user_info WHERE email = #{email}
+        SELECT count(*)
+        FROM user_info
     </select>
 
     <select id="selectAll" resultType="UserDto">
-        SELECT * FROM user_info
+        SELECT *
+        FROM user_info
     </select>
 
-    <select id="select" parameterType="String" resultType="UserDto">
-        SELECT * FROM user_info WHERE id = #{id}
+    <select id="selectId" parameterType="String" resultType="UserDto">
+        SELECT *
+        FROM user_info
+        WHERE id = #{id}
     </select>
 
-    <delete id="deleteAll">
-        DELETE FROM user_info
-    </delete>
+    <select id="selectNickname" parameterType="String" resultType="UserDto">
+        SELECT *
+        FROM user_info
+        WHERE nickname = #{nickname}
+    </select>
 
-    <delete id="delete">
-        DELETE FROM user_info
-    </delete>
+    <select id="selectEmail" parameterType="String" resultType="UserDto">
+        SELECT *
+        FROM user_info
+        WHERE email = #{email}
+    </select>
 
-    <insert id="insert" parameterType="UserDto" >
+
+    <!-- INSERT -->
+    <insert id="insert" parameterType="UserDto">
         insert into user_info(id, pwd, username, sex, birth, email, nickname)
-        values(#{id}, #{pwd}, #{username}, #{sex}, #{birth}, #{email}, #{nickname})
+        values (#{id}, #{pwd}, #{username}, #{sex}, #{birth}, #{email}, #{nickname})
     </insert>
+
+
+    <!-- DELETE -->
+    <delete id="deleteAll">
+        DELETE
+        FROM user_info
+    </delete>
+
+    <delete id="deleteUser">
+        DELETE
+        FROM user_info
+        WHERE id = #{id}
+    </delete>
+
+
+    <!-- UPDATE -->
+    <update id="updatePwd" parameterType="UserDto">
+        UPDATE user_info
+        SET pwd     = #{pwd},
+            up_date = #{up_date}
+        WHERE id = #{id};
+    </update>
 </mapper>
