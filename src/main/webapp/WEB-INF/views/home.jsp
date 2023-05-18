@@ -23,6 +23,11 @@
 	</style>
 </head>
 <body>
+<script>
+	let msg = "${msg}"
+	if(msg==="SERVER_FAIL") alert("문제가 발생하여 요청이 취소되었습니다.");
+	if(msg==="USER_DELETE_SUCCESS") alert("탈퇴가 정상적으로 완료되었습니다.");
+</script>
 <div id="root">
 
 	<%@ include file="header.jsp" %>
