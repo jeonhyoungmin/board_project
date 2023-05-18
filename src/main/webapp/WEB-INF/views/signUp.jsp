@@ -90,6 +90,9 @@
         position: relative;
         bottom: 10px;
     }
+    .logo:hover {
+        cursor: pointer;
+    }
 
     .container {
         width: 100%;
@@ -213,7 +216,7 @@
                         value='<c:out value="${userDto.resident_registration_number}"/>'
                         type="text"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '');"
-                        placeholder="주민번호 앞자리 6글자를 입력해 주세요"
+                        placeholder="생년월일 8글자를 입력해주세요"
                 />
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="birthCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -294,8 +297,8 @@
         const NICKNAME_REG_EXP = /^[a-zA-Z0-9가-힣]{2,10}$/; // 영어 대소문자, 숫자, 한글 2~10
         const NICKNAME_FAIL_MSG = "* 한글, 영어, 숫자를 조합하여 2~10글자 이내로 입력해 주세요";
         const SEX_FAIL_MSG = "* 성별을 선택해 주세요";
-        const BIRTH_REG_EXP = /^(?:[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1]))$/;
-        const BIRTH_FAIL_MSG = "* 주민번호 앞자리 6글자를 입력해 주세요";
+        const BIRTH_REG_EXP = /^(19|20)[0-9]{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[1,2][0-9]|3[0,1])$/; // yyyyMMdd
+        const BIRTH_FAIL_MSG = "* 생년월일 8글자를 입력해주세요";
         const EMAIL_REG_EXP = /[a-z0-9]+@[a-z]+\.[a-z]{2,3}/;
         const EMAIL_FAIL_MSG = "* 이메일 형식이 올바르지 않습니다";
 

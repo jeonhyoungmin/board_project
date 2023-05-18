@@ -8,9 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 @Controller
@@ -52,7 +50,7 @@ public class SignUpController {
         String pwdRegExp = "^(?=.*[A-Za-z])(?=.*\\d)(?=.*[$@$!%*#?&])[A-Za-z\\d$@$!%*#?&]{8,16}$"; // pwd 8~16 대소 영문 + 숫자 + 특수 문자
         String usernameRegExp = "[a-zA-Z가-힣]{2,10}$"; // username 2~10 대소 영문, 한글
         String nicknameRegExp = "[a-zA-Z0-9가-힣]{2,10}$"; // nickname 2~10 한글, 영어, 숫자 가능 (필수, ‘작성자’로 사용)
-        String birthRegExp = "[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|[3][01])$"; // 주민번호 앞자리 6
+        String birthRegExp = "(1[9]|2[0])[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|[3][01])$"; // yyyyMMdd 8자
         String emailRegExp = "\\w+@\\w+\\.\\w+(\\.\\w+)?"; // email 형식
 
         // id, pwd, email 중복 체크
@@ -85,13 +83,13 @@ public class SignUpController {
 
         // 유효성 검사 완료 시, 생일 형식 변환 후 변환
         try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yy-MM-dd");
-            StringBuffer stringBuffer = new StringBuffer(resident_registration_number.toString());
-            stringBuffer.insert(2, "-");
-            stringBuffer.insert(5, "-");
-            Date birth = dateFormat.parse(stringBuffer.toString());
-            userDto.setBirth(birth);
-        } catch (ParseException e) {
+            String RRN = resident_registration_number.toString();
+            Integer year = Integer.parseInt(RRN.substring(0, 4));
+            Integer month = Integer.parseInt(RRN.substring(4, 6));
+            Integer day = Integer.parseInt(RRN.substring(6, 8));
+            LocalDate LocalDate = java.time.LocalDate.of(year, month, day);
+            userDto.setBirth(LocalDate);
+        } catch (Exception e) {
             e.printStackTrace();
             m.addAttribute(userDto);
             m.addAttribute("msg", "REGISTER_FAIL");
@@ -164,7 +162,7 @@ public class SignUpController {
     }
 
     // 요소 검사 메서드
-    private static String validation(UserDto userDto, Model m, Object data, String regExp, String checkObject, String pwd, boolean policy_agree) {
+    static String validation(UserDto userDto, Model m, Object data, String regExp, String checkObject, String pwd, boolean policy_agree) {
         try {
             if (checkObject == "sex") {
                 if (data == null) throw new Exception("sex validation fail");

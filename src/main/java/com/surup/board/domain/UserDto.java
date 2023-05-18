@@ -1,5 +1,7 @@
 package com.surup.board.domain;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -12,21 +14,22 @@ public class UserDto {
     private Integer resident_registration_number;
     private String email;
     private String nickname;
-    private Date  birth;
-    private Date reg_date;
-    private Date up_date;
+    private LocalDate birth;
+    private LocalDateTime reg_date;
+    private LocalDate trans_reg_date;
+    private LocalDateTime up_date;
 
     public UserDto() {}
 
-    public UserDto(String id, String pwd, String pwdcheck, String username, Character sex, Integer resident_registration_number, String email, String nickname) {
+    public UserDto(String id, String pwd, String username, Character sex, Integer resident_registration_number, String email, String nickname, LocalDate birth) {
         this.id = id;
         this.pwd = pwd;
-        this.pwdcheck = pwdcheck;
         this.username = username;
         this.sex = sex;
         this.resident_registration_number = resident_registration_number;
         this.email = email;
         this.nickname = nickname;
+        this.birth = birth;
     }
 
     @Override
@@ -42,6 +45,7 @@ public class UserDto {
                 ", nickname='" + nickname + '\'' +
                 ", birth=" + birth +
                 ", reg_date=" + reg_date +
+                ", trans_reg_date='" + trans_reg_date + '\'' +
                 ", up_date=" + up_date +
                 '}';
     }
@@ -52,11 +56,6 @@ public class UserDto {
         if (o == null || getClass() != o.getClass()) return false;
         UserDto userDto = (UserDto) o;
         return Objects.equals(id, userDto.id) && Objects.equals(pwd, userDto.pwd) && Objects.equals(pwdcheck, userDto.pwdcheck) && Objects.equals(username, userDto.username) && Objects.equals(sex, userDto.sex) && Objects.equals(resident_registration_number, userDto.resident_registration_number) && Objects.equals(email, userDto.email) && Objects.equals(nickname, userDto.nickname);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, pwd, pwdcheck, username, sex, resident_registration_number, email, nickname);
     }
 
     public String getId() {
@@ -123,11 +122,35 @@ public class UserDto {
         this.nickname = nickname;
     }
 
-    public Date getBirth() {
+    public LocalDate getBirth() {
         return birth;
     }
 
-    public void setBirth(Date birth) {
+    public void setBirth(LocalDate birth) {
         this.birth = birth;
+    }
+
+    public LocalDateTime getReg_date() {
+        return reg_date;
+    }
+
+    public void setReg_date(LocalDateTime reg_date) {
+        this.reg_date = reg_date;
+    }
+
+    public LocalDate getTrans_reg_date() {
+        return trans_reg_date;
+    }
+
+    public void setTrans_reg_date(LocalDate trans_reg_date) {
+        this.trans_reg_date = trans_reg_date;
+    }
+
+    public LocalDateTime getUp_date() {
+        return up_date;
+    }
+
+    public void setUp_date(LocalDateTime up_date) {
+        this.up_date = up_date;
     }
 }
