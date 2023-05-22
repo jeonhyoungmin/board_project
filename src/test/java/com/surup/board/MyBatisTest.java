@@ -1,7 +1,12 @@
 package com.surup.board;
 
+import com.surup.board.dao.BoardDao;
 import com.surup.board.dao.UserDao;
+import com.surup.board.domain.BoardDto;
+import com.surup.board.domain.PageHandler;
+import com.surup.board.domain.SearchCondition;
 import com.surup.board.domain.UserDto;
+import com.surup.board.service.BoardService;
 import com.surup.board.service.UserService;
 import org.junit.*;
 import org.junit.runner.*;
@@ -12,9 +17,13 @@ import org.springframework.test.context.junit4.*;
 import javax.sql.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 
 import static org.junit.Assert.*;
@@ -29,7 +38,13 @@ public class MyBatisTest {
     UserDao userDao;
 
     @Autowired
+    BoardDao boardDao;
+
+    @Autowired
     UserService userService;
+
+    @Autowired
+    BoardService boardService;
 
     @Test
     public void jdbcConnectionTest() throws Exception {
@@ -40,6 +55,24 @@ public class MyBatisTest {
 
         System.out.println("conn = " + conn);
         assertTrue(conn != null);
+    }
+
+    @Test
+    public void addBoardContents() throws Exception {
+        for (int i = 0; i < 579; i++) {
+            BoardDto boardDto = new BoardDto("title" + (i + 1), "컨텐츠", "우당탕탕1", "free");
+            boardService.registerBoard(boardDto);
+        }
+    }
+
+    @Test
+    public void boardAll() throws Exception {
+        List<BoardDto> list = null;
+        list = boardService.getBoardAll();
+        ListIterator<BoardDto> listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            System.out.println("listIterator = " + listIterator.next());
+        }
     }
 
     @Test // 모든 사용자 검색
@@ -111,4 +144,54 @@ public class MyBatisTest {
         System.out.println(userDto);
     }
 
+    @Test // board count(*)
+    public void pageHandling() throws Exception {
+        SearchCondition sc = null;
+        int total_cnt = boardService.getCount(sc);
+        System.out.println(total_cnt);
+    }
+
+    @Test // total page 확인
+    public void pageHandling2() throws Exception {
+        SearchCondition sc = null;
+        int total_cnt = boardService.getCount(sc);
+        PageHandler ph = new PageHandler(total_cnt, sc);
+        System.out.println("ph.getTotalPage() = " + ph.getTotalPage());
+        System.out.println("Math.min((21 + 10 - 1), ph.getTotalPage()) = " + Math.min((21 + 10 - 1), ph.getTotalPage()));
+    }
+
+    @Test // category 페이징 핸들링
+    public void pageHandling3() throws Exception {
+        SearchCondition sc = null;
+        int total_cnt = boardService.getCount(sc);
+        PageHandler ph = new PageHandler(total_cnt, sc);
+        List<BoardDto> list = boardService.getPage(sc);
+        ListIterator<BoardDto> listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            BoardDto boardDto = listIterator.next();
+            System.out.println("boardDto = " + boardDto);
+        }
+    }
+
+    @Test // 시간 테스트
+    public void timeTest() throws Exception {
+//        Instant startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant();
+        ZonedDateTime startOfToday = LocalDate.now().atStartOfDay(ZoneId.systemDefault());
+//        System.out.println(startOfToday.toEpochMilli());
+        System.out.println(startOfToday.toEpochSecond());
+        System.out.println(startOfToday);
+
+        SearchCondition sc = null;
+        int total_cnt = boardService.getCount(sc);
+        PageHandler ph = new PageHandler(total_cnt, sc);
+        List<BoardDto> list = boardService.getPage(sc);
+        ListIterator<BoardDto> listIterator = list.listIterator();
+            BoardDto boardDto = listIterator.next();
+        System.out.println("boardDto.getReg_date().toLocalTime() = " + boardDto.getReg_date().toLocalTime());
+        System.out.println("boardDto.getReg_date().atZone(ZoneId.systemDefault()) = " + boardDto.getReg_date().atZone(ZoneId.systemDefault()));
+        System.out.println("boardDto.getReg_date().getSecond() = " + boardDto.getReg_date().getNano());
+        long milliSeconds = Timestamp.valueOf(boardDto.getReg_date()).getTime();
+        System.out.println("milliSeconds = " + milliSeconds);
+
+    }
 }
