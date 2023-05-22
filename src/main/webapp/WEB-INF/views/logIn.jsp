@@ -115,6 +115,7 @@
 <script>
     let SERVER_MSG = "${msg}";
     if (SERVER_MSG == "REGISTER_SUCCESS") alert("회원 가입에 성공했습니다!")
+    SERVER_MSG = "${param.msg}";
     if (SERVER_MSG == "LOGIN_NEED") alert("로그인이 필요한 서비스입니다.")
 </script>
 <div id="root">
@@ -136,8 +137,9 @@
                     <div class="fs_14">비밀번호</div>
                     <span><a>비밀번호를 잊으셨나요?</a></span>
                 </div>
-                <input type="password" name="pwd" placeholder="비밀번호 입력"/>
-                <input type="hidden" name="toURL" value='<c:out value="${toURL}"/>'>
+                <input type="password" name="pwd" value="<c:out value=""/>" placeholder="비밀번호 입력"/>
+                <%-- <input type="hidden" name="toURL" value='<c:out value="${param.toURL}"/>'> --%>
+                 <input type="hidden" name="before_address" value='<c:out value="${before_address}"/>'> <!-- redirect 를 위한 이전 페이지 주소 저장 -->
 
                 <div class="jc_space_between_item">
                     <label class="fs_12 center_flex_item"><input type="checkbox"
@@ -146,9 +148,9 @@
                 </div>
 
                 <br/>
-                <c:if test="${not empty param.msg}">
+                <c:if test="${not empty logInCheckFail}">
                     <div class="loginFail center_flex_item fs_14">
-                            ${param.msg}
+                            ${logInCheckFail}
                     </div>
                     <br/>
                 </c:if>
