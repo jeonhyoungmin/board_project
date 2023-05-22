@@ -12,6 +12,7 @@
     --box-color-1: white;
 
     --selected-color-blue: #79edff;
+    --selected-color-blue-2: #0086e5;
 
     --word-highlight-1: #0086e5;
 
@@ -24,6 +25,10 @@
     --font-color-1: white;
 
     --select-color-1: grey;
+
+    --pagingActive-color : grey;
+    --paginNonActive-color : #f1f3f5;
+    --pagingHover-color : black;
 }
 
 * {
@@ -52,6 +57,16 @@ button:hover {
     width: 100%;
     display: flex;
     justify-content: space-between;
+}
+.jc_sb_ai_ct {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.jc_space_around_ai_center {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
 }
 .ai_space_between_item {
     display: flex;
