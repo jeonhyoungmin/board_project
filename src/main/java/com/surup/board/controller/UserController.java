@@ -12,11 +12,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 
 
 @Controller
@@ -37,30 +34,33 @@ public class UserController {
 
     @PostMapping("/certification")
     public String certification(String id, String pwd, Model m,
-                                HttpSession session, HttpServletRequest request, RedirectAttributes rattr) {
-        Object sessionGetAttributeId = session.getAttribute("id");
-        UserDto userDto = null;
-        if (sessionGetAttributeId == null) {
-            StringBuffer toURL = request.getRequestURL();
-            m.addAttribute("toURL", toURL);
-            m.addAttribute("msg", "LOGIN_NEED");
-            return "logIn";
+                                HttpSession session, RedirectAttributes rattr) {
+        Object sessionGetAttributeId = session.getAttribute("id"); // 세션에 저장한 유저 id
+
+        if (sessionGetAttributeId == null) { // 세션의 id 값이 비어 있으면, 곧 비 로그인 상태이면 로그인 페이지로 이동
+            // 현재 페이지의 url을 담아 전달. 로그인 페이지에서 자체적으로 해결하도록 변경
+            // StringBuffer toURL = request.getRequestURL();
+            // m.addAttribute("toURL", toURL);
+            // return "logIn";
+
+            rattr.addAttribute("msg", "LOGIN_NEED");
+            return "redirect:/login";
         }
-        if (!(userCheck(sessionGetAttributeId.toString(), pwd) && sessionGetAttributeId.equals(id))) {
+        if (!(userCheck(sessionGetAttributeId.toString(), pwd) && sessionGetAttributeId.equals(id))) { // 아이디 비밀번호 일치 확인
             rattr.addFlashAttribute("msg", "USER_CHECK_FAIL");
             return "redirect:/certification";
         }
         try {
-            userDto = userService.getUser(id);
+            UserDto userDto = userService.getUser(id);
+            // 가입일 데이터 LocalDateTime(reg_date) -> LocalDate(trans_reg_date) 변환
+            transLDTtoLD(userDto);
+            m.addAttribute(userDto);
+            return "myInfo";
         } catch (Exception e) {
             e.printStackTrace();
             return "redirect:/certification";
         }
 
-        // 가입일 데이터 LocalDateTime(reg_date) -> LocalDate(trans_reg_date) 변환
-        transLDTtoLD(userDto);
-        m.addAttribute(userDto);
-        return "myInfo";
     }
 
     @PostMapping("/myinfo")
@@ -134,6 +134,12 @@ public class UserController {
                                 HttpServletResponse response,
                                 HttpSession session, RedirectAttributes rattr) {
         String id = (String) session.getAttribute("id");
+
+        if (id == null || id == "") { // 이미 탈퇴했거나 로그인 상태가 아니면 home 페이지로 이동
+            rattr.addFlashAttribute("msg", "SERVER_FAIL");
+            return "redirect:/";
+        }
+
         try {
             userService.deleteAccount(id);
         } catch (Exception e) {
@@ -161,23 +167,35 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String loginPage() {
+    public String loginPage(HttpServletRequest request, Model m) {
+
+        // 로그인 이전 페이지로 이동하기 위한 URL 을 저장해서 logIn 페이지로 전달
+        String before_address = request.getHeader("referer");
+        System.out.println("before_address = " + before_address);
+        int find_list = before_address.indexOf("board") + 5;
+        before_address = before_address.substring(find_list);
+        System.out.println("before_address = " + before_address);
+
+        m.addAttribute("before_address", before_address);
+
         return "logIn";
     }
 
     @PostMapping("/login")
-    public String login(String id, String pwd, String toURL, boolean rememberId,
-                        HttpServletRequest request, HttpServletResponse response) {
+    public String login(String id, String pwd, boolean rememberId, String before_address, Model m,
+                        HttpServletRequest request, HttpServletResponse response) { // String toURL
+
         // 로그인
         // 1. 아이디, 비번 일치 확인
         if (!userCheck(id, pwd)) {
             // 2. 불일치 시, "아이디 또는 비밀번호가 일치하지 않습니다." redirect
-            return checkFailMsg();
+            m.addAttribute("before_address", before_address);
+            return checkFailMsg(m);
         }
         // 3. 일치 시, session에 id 추가
         HttpSession session = request.getSession();
         session.setAttribute("id", id);
-        session.setMaxInactiveInterval(60*60); // 60분 후 session 자동 종료
+        session.setMaxInactiveInterval(60 * 60); // 60분 후 session 자동 종료
         // 4. rememberId
         if (rememberId) {
             // 4-1. true일 시, Cookie에 id를 저장하고 응답에 추가
@@ -190,20 +208,35 @@ public class UserController {
             response.addCookie(cookie);
         }
         // 5. login을 요청한 페이지로 이동하도록 redirect
-        toURL = toURL == null || toURL.equals("") ? "/" : toURL;
+        // 5. 이전 버전
+        // toURL = toURL.substring(6); // /board/list 에서 /board 제거
+        // toURL = toURL == null || toURL.equals("") ? "/" : toURL;
+        // return "redirect:" + toURL;
 
-        return "redirect:" + toURL;
-//        return "home";
+        // 5. 새로운 버전
+        before_address = before_address == null ||
+                before_address.equals("") ||
+                before_address.equals("/signup") ?
+                "/" : before_address;
+        return "redirect:" + before_address;
     }
 
 
-    private static String checkFailMsg() { // 아이디 또는 비밀번호가 일치하지 않을 시, 오류 메시지 전달 메서드
-        try {
-            String msg = URLEncoder.encode("* 아이디 또는 비밀번호가 일치하지 않습니다.", "utf-8");
-            return "redirect:/login?msg=" + msg;
-        } catch (UnsupportedEncodingException e) {
+    private static String checkFailMsg(Model m) { // 아이디 또는 비밀번호가 일치하지 않을 시, 오류 메시지 전달 메서드
+//        try { // querystring 방식으로 msg 전송
+//            String msg = URLEncoder.encode("* 아이디 또는 비밀번호가 일치하지 않습니다.", "utf-8");
+//            return "redirect:/login?msg=" + msg;
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//            return "redirect:/login?msg=FAIL";
+//        }
+        try { // Model 방식으로 msg 전송. before_address 도 Model 에 담아서 보내야하기 때문에 이 방법 채택.
+            m.addAttribute("logInCheckFail", "* 아이디 또는 비밀번호가 일치하지 않습니다.");
+            return "logIn";
+        } catch (Exception e) {
             e.printStackTrace();
-            return "redirect:/login?msg=FAIL";
+            m.addAttribute("logInCheckFail", "문제가 발생하여 로그인에 실패했습니다.");
+            return "logIn";
         }
     }
 
