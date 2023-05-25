@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.surup.board.dao.CommentMapper">
+    <!-- comment DB Mapper -->
+    <!-- SELECT -->
+<!--    <select id="count" resultType="int">-->
+<!--        SELECT count(*)-->
+<!--        FROM user_info-->
+<!--    </select>-->
+
+    <select id="selectAll" resultType="UserDto">
+        SELECT *
+        FROM comment
+        WHERE bno = {bno}
+        ORDER BY cno ASC;
+    </select>
+
+<!--    <select id="selectId" parameterType="String" resultType="UserDto">-->
+<!--        SELECT *-->
+<!--        FROM user_info-->
+<!--        WHERE id = #{id}-->
+<!--    </select>-->
+
+<!--    <select id="selectNickname" parameterType="String" resultType="UserDto">-->
+<!--        SELECT *-->
+<!--        FROM user_info-->
+<!--        WHERE nickname = #{nickname}-->
+<!--    </select>-->
+
+<!--    <select id="selectEmail" parameterType="String" resultType="UserDto">-->
+<!--        SELECT *-->
+<!--        FROM user_info-->
+<!--        WHERE email = #{email}-->
+<!--    </select>-->
+
+
+    <!-- INSERT -->
+<!--    <insert id="insert" parameterType="UserDto">-->
+<!--        insert into user_info(id, pwd, username, sex, birth, email, nickname)-->
+<!--        values (#{id}, #{pwd}, #{username}, #{sex}, #{birth}, #{email}, #{nickname})-->
+<!--    </insert>-->
+
+
+    <!-- DELETE -->
+<!--    <delete id="deleteAll">-->
+<!--        DELETE-->
+<!--        FROM user_info-->
+<!--    </delete>-->
+
+<!--    <delete id="deleteUser">-->
+<!--        DELETE-->
+<!--        FROM user_info-->
+<!--        WHERE id = #{id}-->
+<!--    </delete>-->
+
+
+    <!-- UPDATE -->
+<!--    <update id="updatePwd" parameterType="UserDto">-->
+<!--        UPDATE user_info-->
+<!--        SET pwd     = #{pwd},-->
+<!--            up_date = now()-->
+<!--        WHERE id = #{id};-->
+<!--    </update>-->
+</mapper>
