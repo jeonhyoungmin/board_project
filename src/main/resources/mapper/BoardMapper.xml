@@ -54,26 +54,41 @@
     </select>
 
     <select id="selectPage" parameterType="SearchCondition" resultType="BoardDto">
-        select *
-        from board
-        Where true
+        SELECT *
+        FROM board
+        WHERE true
         <include refid="searchCondition"/>
-        order by bno desc
+        ORDER BY bno DESC
         limit #{pageSize}
-        offset #{offset};
+        OFFSET #{offset};
+    </select>
+
+    <select id="selectOne" parameterType="int" resultType="BoardDto">
+        SELECT *
+        FROM board
+        WHERE bno = #{bno}
     </select>
 
 
     <!-- INSERT -->
     <insert id="insert" parameterType="BoardDto">
-        insert into board (title, content, writer, category)
-        values (#{title}, #{content}, #{writer}, #{category});
+        INSERT INTO board (title, content, writer, category)
+        VALUES (#{title}, #{content}, #{writer}, #{category});
     </insert>
 
 
     <!-- DELETE -->
+    <delete id="delete" parameterType="int">
+        DELETE
+        FROM board
+        WHERE bno = #{bno}
+    </delete>
 
 
     <!-- UPDATE -->
-
+    <update id="update" parameterType="BoardDto">
+        UPDATE board
+        SET title = #{title}, content = #{content}, category = #{category}, up_date = now()
+        WHERE bno = #{bno}
+    </update>
 </mapper>
