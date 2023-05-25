@@ -1,7 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
-<%--<%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %>--%>
-<%--<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>--%>
 <%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -176,6 +174,12 @@
             align-items: center;
         }
 
+        .title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
         .board_content_writer {
             width: 200px;
         }
@@ -232,6 +236,11 @@
 <script>
     let SERVER_MSG = "${msg}"
     if (SERVER_MSG == "PAGE_NOT_FOUND") alert("게시물이 없습니다.")
+    if (SERVER_MSG == "BOARD_READ_FAIL") alert("게시물을 읽을 수 없습니다.")
+    if (SERVER_MSG == "BOARD_UPDATE_FAIL") alert("게시물 수정에 실패했습니다.")
+    if (SERVER_MSG == "BOARD_UPDATE_SUCCESS") alert("게시물을 성공적으로 수정했습니다.")
+    if (SERVER_MSG == "BOARD_DELETE_FAIL") alert("게시물 삭제에 실패했습니다.")
+    if (SERVER_MSG == "BOARD_DELETE_SUCCESS") alert("게시물을 성공적으로 삭제했습니다.")
 </script>
 <div id="root">
 
@@ -285,7 +294,7 @@
                     <div class="board_contentRow_pk">
                         <div class="board_content_no center_flex_item">${boardDto.numbering}</div>
                         <div class="board_content_title">
-                            <a href="<c:url value='/list${ph.sc.getQueryString()}'/>">${boardDto.title} &ensp;</a> <!-- 읽기 준비 -->
+                            <a class="title" href="<c:url value='/board/read?bno=${boardDto.bno}'/>">${boardDto.title} &ensp;</a> <!-- 읽기 준비 -->
                             <c:if test="${boardDto.comment_cnt > 0}">
                                 <div class="comment_cnt">
                                     <div class="fa fa-commenting-o"></div>
