@@ -171,10 +171,8 @@ public class UserController {
 
         // 로그인 이전 페이지로 이동하기 위한 URL 을 저장해서 logIn 페이지로 전달
         String before_address = request.getHeader("referer");
-        System.out.println("before_address = " + before_address);
         int find_list = before_address.indexOf("board") + 5;
         before_address = before_address.substring(find_list);
-        System.out.println("before_address = " + before_address);
 
         m.addAttribute("before_address", before_address);
 
@@ -216,8 +214,10 @@ public class UserController {
         // 5. 새로운 버전
         before_address = before_address == null ||
                 before_address.equals("") ||
-                before_address.equals("/signup") ?
+                before_address.equals("/signup") ||
+                before_address.equals("/login") ?
                 "/" : before_address;
+
         return "redirect:" + before_address;
     }
 
