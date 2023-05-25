@@ -27,6 +27,10 @@ public class BoardDao { // 게시글 관련 SQL
         return session.selectList(namespace + "selectPage", sc);
     }
 
+    public BoardDto selectOne(Integer bno) throws Exception {
+        return session.selectOne(namespace + "selectOne", bno);
+    }
+
 
     // INSERT
     public int insert(BoardDto boardDto) throws Exception {
@@ -35,13 +39,13 @@ public class BoardDao { // 게시글 관련 SQL
 
 
     // DELETE
-//    public int deleteAll() throws Exception {
-//        return session.delete(namespace + "deleteAll");
-//    }
+    public int delete(Integer bno) throws Exception {
+        return session.delete(namespace + "delete", bno);
+    }
 
 
     // UPDATE
-//    public int updatePwd(UserDto userDto) throws Exception {
-//        return session.update(namespace + "updatePwd", userDto);
-//    }
+    public int updateBoard(BoardDto boardDto) throws Exception {
+        return session.update(namespace + "update", boardDto);
+    }
 }
