@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core_rt" %>
 <!--%@taglib prefix="fmt" uri="http://java.sun.com/jstl/fmt_rt" %-->
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page session="false" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -144,6 +145,7 @@
                         value='<c:out value="${userDto.id}"/>'
                         type="text"
                         placeholder="영어, 숫자를 조합하여 5~12글자 이내로 입력해 주세요"
+                        required
                 />
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="idCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -158,6 +160,7 @@
                         value='<c:out value="${userDto.pwd}"/>'
                         type="password"
                         placeholder="영어, 숫자, 특수문자 하나씩을 포함하여 8~16자 이내로 입력해 주세요"
+                        required
                 />
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="pwdCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -166,8 +169,8 @@
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div class="fs_14">비밀번호 확인</div>
                 </div>
-                <input id="pwdDblCheck" name="pwdcheck" value='<c:out value=""/>' type="password"
-                       placeholder="비밀번호를 입력해 주세요"/>
+                <input id="pwdDblCheck" name="pwdcheck" value='<c:out value="${userDto.pwdcheck}"/>' type="password"
+                       placeholder="비밀번호를 입력해 주세요" required/>
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="pwdDblCheckMsg" class="fs_12 mg_bottom_15"></div>
                 </div>
@@ -176,7 +179,7 @@
                     <div class="fs_14">이름</div>
                 </div>
                 <input id="usernameCheck" name="username" value='<c:out value="${userDto.username}"/>' type="text"
-                       placeholder="이름을 입력해 주세요"/>
+                       placeholder="이름을 입력해 주세요" required/>
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="usernameCheckMsg" class="fs_12 mg_bottom_15"></div>
                 </div>
@@ -190,6 +193,7 @@
                         value='<c:out value="${userDto.nickname}"/>'
                         type="text"
                         placeholder="한글, 영어, 숫자를 조합하여 2~10글자 이내로 입력해 주세요"
+                        required
                 />
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="nicknameCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -198,10 +202,10 @@
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div class="fs_14">성별</div>
                 </div>
-                <select name="sex" id="sexCheck">
-                    <option value="">성별을 선택해 주세요</option>
-                    <option value='<c:out value="남"/>'>남</option>
-                    <option value='<c:out value="여"/>'>여</option>
+                <select name="sex" id="sexCheck" required>
+                    <option value="" >성별을 선택해 주세요</option>
+                    <option value='<c:out value="남"/>' ${fn:contains(userDto.sex, '남') ? "selected" : ""}>남</option>
+                    <option value='<c:out value="여"/>' ${fn:contains(userDto.sex, '여') ? "selected" : ""}>여</option>
                 </select>
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="sexCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -217,6 +221,7 @@
                         type="text"
                         oninput="this.value = this.value.replace(/[^0-9]/g, '');"
                         placeholder="생년월일 8글자를 입력해주세요"
+                        required
                 />
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="birthCheckMsg" class="fs_12 mg_bottom_15"></div>
@@ -226,7 +231,7 @@
                     <div class="fs_14">이메일</div>
                 </div>
                 <input id="emailCheck" name="email" value='<c:out value="${userDto.email}"/>' type="text"
-                       placeholder="이메일을 입력해 주세요"/>
+                       placeholder="이메일을 입력해 주세요" required/>
                 <div class="jc_space_between_item ai_flex_end_item">
                     <div id="emailCheckMsg" class="fs_12 mg_bottom_15"></div>
                 </div>
