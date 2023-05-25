@@ -58,7 +58,7 @@
     <update id="updatePwd" parameterType="UserDto">
         UPDATE user_info
         SET pwd     = #{pwd},
-            up_date = #{up_date}
+            up_date = now()
         WHERE id = #{id};
     </update>
 </mapper>
