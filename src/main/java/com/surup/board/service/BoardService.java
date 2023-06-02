@@ -1,65 +1,30 @@
 package com.surup.board.service;
 
-import com.surup.board.dao.BoardDao;
-import com.surup.board.dao.UserDao;
 import com.surup.board.domain.BoardDto;
 import com.surup.board.domain.SearchCondition;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
-@Service
-public class BoardService { // 새 글 쓰기, 수정하기, 삭제하기
-    @Autowired
-    BoardDao boardDao;
 
-    @Autowired
-    UserDao userDao;
-
+public interface BoardService {
     // SELECT
-    public List<BoardDto> getBoardAll() throws Exception {
-        return boardDao.selectAll();
-    }
+    List<BoardDto> getBoardAll() throws Exception;
 
-    public int getCount(SearchCondition sc) throws Exception {
-        return boardDao.count(sc);
-    }
+    int getCount(SearchCondition sc) throws Exception;
 
-    public List<BoardDto> getPage(SearchCondition sc) throws Exception {
-        return boardDao.selectPage(sc);
-    }
+    List<BoardDto> getPage(SearchCondition sc) throws Exception;
 
-    public BoardDto getBoardOne(Integer bno) throws Exception {
-        return boardDao.selectOne(bno);
-    }
+    BoardDto getBoardOne(Integer bno) throws Exception;
 
-    public String  getWriterId(Integer bno) throws Exception {
-        BoardDto boardDto = boardDao.selectOne(bno);
-        String writer = boardDto.getWriter();
-        return userDao.selectNickname(writer).getId();
-    }
-
+    String getWriterId(Integer bno) throws Exception;
 
     // INSERT
-    public int registerBoard(BoardDto boardDto) throws Exception {
-        return boardDao.insert(boardDto);
-    }
+    int registerBoard(BoardDto boardDto) throws Exception;
 
-    public int registerBoard(String id, BoardDto boardDto) throws Exception {
-        String writer = userDao.selectId(id).getNickname();
-        boardDto.setWriter(writer);
-        return boardDao.insert(boardDto);
-    }
-
+    int registerBoard(String id, BoardDto boardDto) throws Exception;
 
     // DELETE
-    public int deleteBoardOne(Integer bno) throws Exception {
-        return boardDao.delete(bno);
-    }
-
+    int deleteBoardOne(Integer bno) throws Exception;
 
     // UPDATE
-    public int updateBoardOne(BoardDto boardDto) throws Exception {
-        return boardDao.updateBoard(boardDto);
-    }
+    int updateBoardOne(BoardDto boardDto) throws Exception;
 }

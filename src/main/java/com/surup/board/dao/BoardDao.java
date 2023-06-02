@@ -2,50 +2,30 @@ package com.surup.board.dao;
 
 import com.surup.board.domain.BoardDto;
 import com.surup.board.domain.SearchCondition;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
-@Repository
-public class BoardDao { // 게시글 관련 SQL
-    @Autowired
-    private SqlSession session;
-    private static String namespace = "com.surup.board.dao.BoardMapper.";
-
+public interface BoardDao {
     // SELECT
-    public List<BoardDto> selectAll() throws Exception { // test 용
-        return session.selectList(namespace + "selectAll");
-    }
+    List<BoardDto> selectAll() throws Exception;
 
-    public int count(SearchCondition sc) throws Exception {
-        return session.selectOne(namespace + "count", sc);
-    }
+    int count(SearchCondition sc) throws Exception;
 
-    public List<BoardDto> selectPage(SearchCondition sc) throws Exception {
-        return session.selectList(namespace + "selectPage", sc);
-    }
+    List<BoardDto> selectPage(SearchCondition sc) throws Exception;
 
-    public BoardDto selectOne(Integer bno) throws Exception {
-        return session.selectOne(namespace + "selectOne", bno);
-    }
-
+    BoardDto selectOne(Integer bno) throws Exception;
 
     // INSERT
-    public int insert(BoardDto boardDto) throws Exception {
-        return session.insert(namespace + "insert", boardDto);
-    }
-
+    int insert(BoardDto boardDto) throws Exception;
 
     // DELETE
-    public int delete(Integer bno) throws Exception {
-        return session.delete(namespace + "delete", bno);
-    }
-
+    int delete(Integer bno) throws Exception;
 
     // UPDATE
-    public int updateBoard(BoardDto boardDto) throws Exception {
-        return session.update(namespace + "update", boardDto);
-    }
+    int updateBoard(BoardDto boardDto) throws Exception;
+
+    int updateCommentCnt(Integer bno, Integer cnt) throws Exception;
+
+    int updateViewCnt(Integer bno) throws Exception;
 }
