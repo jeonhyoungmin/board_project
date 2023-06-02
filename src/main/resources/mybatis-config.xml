@@ -7,5 +7,6 @@
         <typeAlias alias="UserDto" type="com.surup.board.domain.UserDto"/>
         <typeAlias alias="BoardDto" type="com.surup.board.domain.BoardDto"/>
         <typeAlias alias="SearchCondition" type="com.surup.board.domain.SearchCondition"/>
+        <typeAlias alias="CommentDto" type="com.surup.board.domain.CommentDto"/>
     </typeAliases>
 </configuration>
