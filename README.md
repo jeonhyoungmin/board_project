@@ -1,4 +1,4 @@
-# Board-Project(http://3.36.100.52:8080/board/)
+# [Board-Project](http://3.36.100.52:8080/board/)
 > 웹 기본 소양이 되는 게시판 프로젝트. By JAVA Spring
 <br/>
 
