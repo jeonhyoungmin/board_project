@@ -2,11 +2,9 @@ package com.surup.board;
 
 import com.surup.board.dao.BoardDao;
 import com.surup.board.dao.UserDao;
-import com.surup.board.domain.BoardDto;
-import com.surup.board.domain.PageHandler;
-import com.surup.board.domain.SearchCondition;
-import com.surup.board.domain.UserDto;
+import com.surup.board.domain.*;
 import com.surup.board.service.BoardService;
+import com.surup.board.service.CommentService;
 import com.surup.board.service.UserService;
 import org.junit.*;
 import org.junit.runner.*;
@@ -17,7 +15,6 @@ import org.springframework.test.context.junit4.*;
 import javax.sql.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
@@ -45,6 +42,9 @@ public class MyBatisTest {
 
     @Autowired
     BoardService boardService;
+
+    @Autowired
+    CommentService commentService;
 
     @Test
     public void jdbcConnectionTest() throws Exception {
@@ -186,12 +186,27 @@ public class MyBatisTest {
         PageHandler ph = new PageHandler(total_cnt, sc);
         List<BoardDto> list = boardService.getPage(sc);
         ListIterator<BoardDto> listIterator = list.listIterator();
-            BoardDto boardDto = listIterator.next();
+        BoardDto boardDto = listIterator.next();
         System.out.println("boardDto.getReg_date().toLocalTime() = " + boardDto.getReg_date().toLocalTime());
         System.out.println("boardDto.getReg_date().atZone(ZoneId.systemDefault()) = " + boardDto.getReg_date().atZone(ZoneId.systemDefault()));
         System.out.println("boardDto.getReg_date().getSecond() = " + boardDto.getReg_date().getNano());
         long milliSeconds = Timestamp.valueOf(boardDto.getReg_date()).getTime();
         System.out.println("milliSeconds = " + milliSeconds);
-
     }
+
+    @Test
+    public void simpleDateFormatTest() throws Exception {
+        List<CommentDto> list = commentService.getCommentAll(1918); // bno 에 해당하는 모든 댓글 찾기
+        ListIterator<CommentDto> listIterator = list.listIterator();
+        while (listIterator.hasNext()) {
+            CommentDto li = listIterator.next();
+            SimpleDateFormat receiveFormat = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+            SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.ENGLISH);
+            Date dateParse = receiveFormat.parse(li.getReg_date().toString());
+            String date = transFormat.format(dateParse);
+            System.out.println("date = " + date);
+        }
+    }
+
 }
+
