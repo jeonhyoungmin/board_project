@@ -32,11 +32,11 @@
 
 	<%@ include file="header.jsp" %>
 
-	<main class="main">홈페이지입니다.</main>
-	<main class="main">홈페이지입니다.</main>
-	<main class="main">홈페이지입니다.</main>
-	<main class="main">홈페이지입니다.</main>
-	<main class="main">홈페이지입니다.</main>
+	<main class="main"></main>
+	<main class="main"></main>
+	<main class="main">상단의 board를 클릭해주세요.</main>
+	<main class="main"></main>
+	<main class="main"></main>
 </div>
 </body>
 </html>
