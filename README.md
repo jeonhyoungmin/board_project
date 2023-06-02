@@ -1,4 +1,4 @@
-# Board-Project
+# Board-Project(http://3.36.100.52:8080/board/)
 > 웹 기본 소양이 되는 게시판 프로젝트. By JAVA Spring
 <br/>
 
@@ -11,6 +11,9 @@
   - [사용 기술](#3-사용-기술)
     - [백엔드](#3-1-백엔드)
     - [프론트엔드](#3-2-프론트엔드)
+  - [화면](#4-화면)
+
+- [구조 및 설계](#구조-및-설계)
 
 ## 프로젝트 명세서
 ### 1. 개요
@@ -43,7 +46,7 @@
 
 ##### DataBase
 - MySQL(8.0)
-
+- 
 ##### Server
 - Tomcat(9.0.73)
 
@@ -61,6 +64,21 @@
 - Html/Css
 - JavaScript
 - JSP
+
+### 4. 화면
+<details>
+<summary>유저</summary>
+</details>
+
+<details>
+<summary>게시판</summary>
+</details>
+
+<details>
+<summary>댓글 및 답글</summary>
+</details>
+
+## 구조 및 설계
 
 ![class diagram](https://github.com/jeonhyoungmin/board_project/assets/109570394/b9997f9a-bb99-44fd-8378-ba10e536b17c)
 
