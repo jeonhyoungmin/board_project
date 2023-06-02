@@ -17,7 +17,7 @@ import javax.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/board")
-public class Board {
+public class BoardController {
 
     @Autowired
     UserService userService;
@@ -47,8 +47,8 @@ public class Board {
 
     @PostMapping("/write")
     public String write(BoardDto boardDto, HttpSession session, RedirectAttributes rattr, Model m) {
-        System.out.println("boardDto = " + boardDto);
         String sessionId = (String) session.getAttribute("id");
+
         // 세션 아이디 유무 확인
         if (sessionId == null) { // 세션의 id 값이 비어 있으면, 곧 비 로그인 상태이면 로그인 페이지로 이동
             // 세션 아이디 없을 시, 로그인이 필요한 서비스라는 알림과 함께 로그인 창으로 이동
@@ -56,9 +56,10 @@ public class Board {
             return "redirect:/login";
         }
         try {
-            if (boardDto.getTitle().equals("") || boardDto.getContent().equals("")) throw new Exception("empty board fail");
+            if (boardDto.getTitle().equals("") || boardDto.getContent().equals(""))
+                throw new Exception("empty board fail");
             int row_cnt = boardService.registerBoard(sessionId, boardDto); // id로 닉네임 추출 및 초기화 후, 게시물 등록
-            if(row_cnt != 1) throw new Exception("board register fail");
+            if (row_cnt != 1) throw new Exception("board register fail");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,12 +80,20 @@ public class Board {
         int find_list = before_address.indexOf("board") + 5;
         before_address = before_address.substring(find_list);
 
+        // 게시물을 읽다가 로그인 하러 갔다 올 경우
+        // 수정, 삭제, 목록 수행 후 /list 로 이동하도록 작성
+        before_address = before_address == null ||
+                before_address.equals("") ||
+                before_address.equals("/signup") ||
+                before_address.equals("/login") ?
+                "/list" : before_address;
+
         try {
             // bno 로 데이터 게시물 찾기
             BoardDto boardDto = boardService.getBoardOne(bno);
             // bno 로 사용자 아이디 얻기
             String id = boardService.getWriterId(bno);
-            m.addAttribute("writerId", id); // 작성자 아이디
+            m.addAttribute("writerId", id); // 현재 로그인 된 사용자의 아이디와 비교할 작성자 아이디 추가
 
             m.addAttribute(boardDto);
             m.addAttribute("before_address", before_address);
@@ -92,7 +101,7 @@ public class Board {
         } catch (Exception e) {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "BOARD_READ_FAIL");
-            return "redirect:/" + before_address;
+            return "redirect:" + before_address;
         }
 
         return "board";
@@ -100,6 +109,15 @@ public class Board {
 
     @GetMapping("/modify")
     public String modifyView(Integer bno, String before_address, RedirectAttributes rattr, Model m) {
+
+        // 게시물을 읽다가 로그인 하러 갔다 올 경우
+        // 수정, 삭제, 목록 수행 후 /list 로 이동하도록 작성
+        // 혹여 로그인 상태에서 수정 페이지로 이동했다가 비 로그인 될 경우를 위해 여기도 작성
+        before_address = before_address == null ||
+                before_address.equals("") ||
+                before_address.equals("/signup") ||
+                before_address.equals("/login") ?
+                "/list" : before_address;
 
         try {
             // bno 로 데이터 게시물 찾기
@@ -114,7 +132,7 @@ public class Board {
         } catch (Exception e) {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "BOARD_READ_FAIL");
-            return "redirect:/" + before_address;
+            return "redirect:" + before_address;
         }
 
         return "board";
@@ -122,8 +140,16 @@ public class Board {
 
     @PostMapping("/modify")
     public String modify(Integer bno, BoardDto boardDto, String before_address,
-                                    RedirectAttributes rattr, HttpSession session) {
+                         RedirectAttributes rattr, HttpSession session) {
         String sessionId = (String) session.getAttribute("id");
+
+        // 게시물을 읽다가 로그인 하러 갔다 올 경우
+        // 수정, 삭제, 목록 수행 후 /list 로 이동하도록 작성
+        before_address = before_address == null ||
+                before_address.equals("") ||
+                before_address.equals("/signup") ||
+                before_address.equals("/login") ?
+                "/list" : before_address;
 
         try {
             // sessionId로 찾은 닉네임과 게시물의 작성 닉네임 비교
@@ -137,22 +163,28 @@ public class Board {
         } catch (Exception e) {
             e.printStackTrace();
             rattr.addFlashAttribute("msg", "BOARD_UPDATE_FAIL");
-            return "redirect:/" + before_address;
+            return "redirect:" + before_address;
         }
         rattr.addFlashAttribute("msg", "BOARD_UPDATE_SUCCESS");
-        return "redirect:/" + before_address;
+        return "redirect:" + before_address;
     }
 
     @DeleteMapping("/remove")
     public String remove(Integer bno, String before_address, HttpSession session, RedirectAttributes rattr) {
         String sessionId = (String) session.getAttribute("id");
 
+        // 게시물을 읽다가 로그인 하러 갔다 올 경우
+        // 수정, 삭제, 목록 수행 후 /list 로 이동하도록 작성
+        before_address = before_address == null ||
+                before_address.equals("") ||
+                before_address.equals("/signup") ||
+                before_address.equals("/login") ?
+                "/list" : before_address;
+
         try {
             // sessionId로 찾은 닉네임과 게시물의 작성 닉네임 비교
             String sessionIdNickname = userService.getUser(sessionId).getNickname();
             String boardNickname = boardService.getBoardOne(bno).getWriter();
-            System.out.println("sessionIdNickname = " + sessionIdNickname);
-            System.out.println("boardNickname = " + boardNickname);
             if (!(sessionIdNickname.equals(boardNickname))) throw new Exception("nickname not correct");
 
             int row_cnt = boardService.deleteBoardOne(bno); // 삭제
