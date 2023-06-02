@@ -5,42 +5,45 @@
 <mapper namespace="com.surup.board.dao.CommentMapper">
     <!-- comment DB Mapper -->
     <!-- SELECT -->
-<!--    <select id="count" resultType="int">-->
-<!--        SELECT count(*)-->
-<!--        FROM user_info-->
-<!--    </select>-->
-
-    <select id="selectAll" resultType="UserDto">
-        SELECT *
+    <select id="countPcno" resultType="int">
+        SELECT count(*)
         FROM comment
-        WHERE bno = {bno}
-        ORDER BY cno ASC;
+        WHERE pcno != -1<!-- pcno = -1 이면 댓글 -->
     </select>
 
-<!--    <select id="selectId" parameterType="String" resultType="UserDto">-->
-<!--        SELECT *-->
-<!--        FROM user_info-->
-<!--        WHERE id = #{id}-->
-<!--    </select>-->
+    <!-- bno 에 해당하는 댓글만 모두 선택 -->
+    <select id="selectAll" parameterType="int" resultType="CommentDto">
+        SELECT *
+        FROM comment
+        WHERE bno = #{bno} AND pcno &lt;= -1 <!--    <= -1    와 동일     -->
+        ORDER BY cno DESC
+    </select>
 
-<!--    <select id="selectNickname" parameterType="String" resultType="UserDto">-->
-<!--        SELECT *-->
-<!--        FROM user_info-->
-<!--        WHERE nickname = #{nickname}-->
-<!--    </select>-->
+    <!-- cno 에 해당하는 답글만 모두 선택 -->
+    <select id="selectPcnoAll" parameterType="int" resultType="CommentDto">
+        SELECT *
+        FROM comment
+        WHERE pcno = #{cno}
+        ORDER BY cno DESC
+    </select>
 
-<!--    <select id="selectEmail" parameterType="String" resultType="UserDto">-->
-<!--        SELECT *-->
-<!--        FROM user_info-->
-<!--        WHERE email = #{email}-->
-<!--    </select>-->
+    <select id="select" parameterType="int" resultType="CommentDto">
+        SELECT *
+        FROM comment
+        WHERE cno = #{cno}
+    </select>
 
 
     <!-- INSERT -->
-<!--    <insert id="insert" parameterType="UserDto">-->
-<!--        insert into user_info(id, pwd, username, sex, birth, email, nickname)-->
-<!--        values (#{id}, #{pwd}, #{username}, #{sex}, #{birth}, #{email}, #{nickname})-->
-<!--    </insert>-->
+    <insert id="insert" parameterType="CommentDto">
+        insert into comment (bno, pcno, comment, commenter)
+        values (#{bno}, -1, #{comment}, #{commenter});
+    </insert>
+
+    <insert id="replyInsert" parameterType="CommentDto">
+        insert into comment (bno, pcno, comment, commenter)
+        values (#{bno}, #{cno}, #{comment}, #{commenter});
+    </insert>
 
 
     <!-- DELETE -->
@@ -49,18 +52,28 @@
 <!--        FROM user_info-->
 <!--    </delete>-->
 
-<!--    <delete id="deleteUser">-->
-<!--        DELETE-->
-<!--        FROM user_info-->
-<!--        WHERE id = #{id}-->
-<!--    </delete>-->
+    <delete id="delete">
+        DELETE
+        FROM comment
+        WHERE cno = #{cno}
+    </delete>
 
 
     <!-- UPDATE -->
-<!--    <update id="updatePwd" parameterType="UserDto">-->
-<!--        UPDATE user_info-->
-<!--        SET pwd     = #{pwd},-->
-<!--            up_date = now()-->
-<!--        WHERE id = #{id};-->
-<!--    </update>-->
+    <update id="update" parameterType="CommentDto">
+        UPDATE comment
+        SET comment = #{comment},
+            up_date = now()
+        WHERE cno = #{cno};
+    </update>
+
+    <!-- 답글 추가 시, 해당 댓글의 답글 개수 추가 -->
+    <!-- 댓글인 것을 표시하는 것은 pcno -1 -->
+    <!-- 답글을 추가할 시, -1씩 추가해서 답글이 있는 댓글인 것을 표시 -->
+    <!-- 답글 삭제 시, +1씩 추가해서 답글이 삭제된 것을 표시 -->
+    <update id="pcnoUpdate" parameterType="map">
+        UPDATE comment
+        SET pcno = pcno + #{count}
+        WHERE cno = #{cno};
+    </update>
 </mapper>
