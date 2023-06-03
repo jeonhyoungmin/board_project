@@ -110,8 +110,8 @@
   </br>
   
   **1. 댓글 및 답글 화면**
-  ![댓글 및 답글](https://github.com/jeonhyoungmin/board_project/assets/109570394/52bc7160-0747-4cd4-93a8-ae98e1225b29)
-  
+  ![댓글 및 답글](https://github.com/jeonhyoungmin/board_project/assets/109570394/16668ed1-c59e-47b2-b623-9b4d4742657c)
+
   **2. 댓글 및 답글 작성 화면**
   ![새 댓글 작성](https://github.com/jeonhyoungmin/board_project/assets/109570394/49619880-92d6-479a-82e3-a21f18ba9f1e)
 
