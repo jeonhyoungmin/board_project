@@ -16,6 +16,8 @@
 - [구조 및 설계](#구조-및-설계)
   - [클래스 다이어그램](#1-class-diagram)
   - [DB 설계](#2-db-설계)
+    - [ERD-Diagram](#2-1-erd-diagram)
+    - [설계](#2-2-설계)
   - [API 설계](#3-api-설계)
 
 ## 프로젝트 명세서
@@ -120,9 +122,30 @@
 
 ## 구조 및 설계
 ### 1. Class Diagram
+  ![class diagram](https://github.com/jeonhyoungmin/board_project/assets/109570394/b9997f9a-bb99-44fd-8378-ba10e536b17c)
+  
+</br>
+  
 ### 2. DB 설계
+#### 2-1. ERD-Diagram
+![board_project_EER_설계_1](https://github.com/jeonhyoungmin/board_project/assets/109570394/cd5befd1-e6d8-4dd0-a936-752765fb584f)
+
+</br>
+
+#### 2-2. 설계
+![DB_user_info](https://github.com/jeonhyoungmin/board_project/assets/109570394/1000b799-831a-452b-84df-13c339e45901)
+
+![DB_board](https://github.com/jeonhyoungmin/board_project/assets/109570394/834e0889-bd33-4bed-baa1-2d53ca17169f)
+
+![DB_comment](https://github.com/jeonhyoungmin/board_project/assets/109570394/1586835f-0d6f-4251-b35b-fc6d1ad1edfa)
+
+</br>
+
 ### 3. API 설계
+![API 회원 관련](https://github.com/jeonhyoungmin/board_project/assets/109570394/f8f36b15-b94b-4758-9f22-b9f83617bc0c)
 
-![class diagram](https://github.com/jeonhyoungmin/board_project/assets/109570394/b9997f9a-bb99-44fd-8378-ba10e536b17c)
+![API 회원 정보 관련](https://github.com/jeonhyoungmin/board_project/assets/109570394/c1e680d8-fb77-4e0c-817b-1bc366ebf44c)
 
-https://www.notion.so/ff542a7a00934075b12979d6000b9ccc
+![API 게시판 관련](https://github.com/jeonhyoungmin/board_project/assets/109570394/81da13c7-069c-4580-8db8-f531126b72f5)
+
+![API 댓글 관련](https://github.com/jeonhyoungmin/board_project/assets/109570394/c942a4c8-3278-456e-84e6-35391864d29e)
