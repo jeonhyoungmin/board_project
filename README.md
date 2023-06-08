@@ -1,4 +1,4 @@
-# [Board-Project](http://www.surup.me/board/)
+# [Board-Project](http://www.surup.me/board/) - web[배포사이트 바로가기]
 > 웹 기본 소양이 되는 게시판 프로젝트. By JAVA Spring
 <br/>
 
