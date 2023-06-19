@@ -51,7 +51,7 @@
 
 ##### DataBase
 - MySQL(8.0)
-- 
+  
 ##### Server
 - Tomcat(9.0.73)
 
@@ -68,7 +68,6 @@
 #### 3-2. 프론트엔드
 - Html/Css
 - JavaScript
-- JSP
 
 ### 4. 화면
 <details>
