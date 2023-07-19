@@ -66,7 +66,7 @@
 - Git-Hub
 
 #### 3-2. 프론트엔드
-- Html5/Css3
+- Html5/CSS3
 - JavaScript
 
 ### 4. 화면
