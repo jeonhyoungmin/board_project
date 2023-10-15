@@ -1,7 +1,7 @@
 # [Board-Project](http://www.surup.me/board/) - web[배포사이트 바로가기]
 > 웹 기본 소양이 되는 게시판 프로젝트. By JAVA Spring
 <br/>
-
+깃테스트
 ![게시판 이미지](https://github.com/jeonhyoungmin/board_project/assets/109570394/3795a82d-c1bb-426f-afe6-4fae0864db6d)
 
 ## 목차
